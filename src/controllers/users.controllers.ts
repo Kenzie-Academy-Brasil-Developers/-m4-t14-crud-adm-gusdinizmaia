@@ -28,7 +28,7 @@ const getUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await getUserService();
+  const data = await getUserService(req.user.id);
 
   return res.status(200).json(data);
 };

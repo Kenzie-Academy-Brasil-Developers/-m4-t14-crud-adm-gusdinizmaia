@@ -1,13 +1,20 @@
+import format from "pg-format";
 import { client } from "../../database";
+import { userWithoutPassword } from "../../schemas/user.schemas";
 
-const getUserService = async () => {
-  const queryString = `
-    select u.id, u.name, u.email, u.admin, u.active from users u;
-  `;
+const getUserService = async (id: number) => {
+  const queryString = format(
+    `
+    select * from users u
+    where u.id = %s
+  `,
+    id
+  );
 
   const queryResult = await client.query(queryString);
+  const userReturn = userWithoutPassword.parse(queryResult.rows[0]);
 
-  return queryResult.rows;
+  return userReturn;
 };
 
 export { getUserService };
