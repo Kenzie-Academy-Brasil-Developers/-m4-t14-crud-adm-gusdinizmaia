@@ -1,5 +1,5 @@
-const loginUser = async () => {
+const postLoginService = async (body: any) => {
   return;
 };
 
-export { loginUser };
+export { postLoginService };

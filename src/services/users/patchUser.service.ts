@@ -1,4 +1,4 @@
-const patchUserService = async () => {
+const patchUserService = async (body: any) => {
   return;
 };
 

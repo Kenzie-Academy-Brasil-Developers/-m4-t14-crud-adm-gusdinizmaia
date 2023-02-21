@@ -10,7 +10,7 @@ const postUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await postUserService();
+  const data = await postUserService(req.body);
 
   return res.status(201).json(data);
 };
@@ -30,14 +30,14 @@ const getUserController = async (
 ): Promise<Response> => {
   const data = await getUserService();
 
-  return res.status(201).json(data);
+  return res.status(200).json(data);
 };
 
 const patchUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await patchUserService();
+  const data = await patchUserService(req.body);
 
   return res.status(201).json(data);
 };
@@ -46,7 +46,7 @@ const deleteUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await deleteUserService();
+  const data = await deleteUserService(req.body);
 
   return res.status(201).json(data);
 };
@@ -55,7 +55,7 @@ const putUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await putUserService();
+  const data = await putUserService(req.body);
 
   return res.status(201).json(data);
 };

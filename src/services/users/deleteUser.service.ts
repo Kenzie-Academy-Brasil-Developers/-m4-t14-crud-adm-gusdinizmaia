@@ -1,4 +1,4 @@
-const deleteUserService = async () => {
+const deleteUserService = async (body: any) => {
   return;
 };
 

@@ -1,4 +1,4 @@
-const putUserService = async () => {
+const putUserService = async (body: any) => {
   return;
 };
 
