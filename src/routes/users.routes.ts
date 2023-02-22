@@ -35,7 +35,6 @@ userRouter.delete(
   verifyUserExist,
   verifyToken,
   verifyAdminPermission,
-  verifyAdminPermission,
   deleteUserController
 );
 userRouter.put(
