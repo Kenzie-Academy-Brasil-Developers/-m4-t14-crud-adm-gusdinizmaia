@@ -1,6 +1,12 @@
 import { z } from "zod";
-import { resultUserSchema, userSchema } from "../schemas/user.schemas";
+import {
+  resultUserSchema,
+  userSchema,
+  userSchemaOptional,
+} from "../schemas/user.schemas";
 
 type iUser = z.infer<typeof userSchema>;
 type iResultUser = z.infer<typeof resultUserSchema>;
-export { iUser, iResultUser };
+type iUserOptional = z.infer<typeof userSchemaOptional>;
+
+export { iUser, iResultUser, iUserOptional };

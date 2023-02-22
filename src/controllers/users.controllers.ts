@@ -21,7 +21,7 @@ const getAllUsersController = async (
 ): Promise<Response> => {
   const data = await getAllUsersService();
 
-  return res.status(201).json(data);
+  return res.status(200).json(data);
 };
 
 const getUserController = async (
@@ -37,27 +37,33 @@ const patchUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await patchUserService(req.body);
+  const id = parseInt(req.params.id);
 
-  return res.status(201).json(data);
+  const data = await patchUserService(req.body, id);
+
+  return res.status(200).json(data);
 };
 
 const deleteUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await deleteUserService(req.body);
+  const id = parseInt(req.params.id);
 
-  return res.status(201).json(data);
+  const data = await deleteUserService(id);
+
+  return res.status(204).json(data);
 };
 
 const putUserController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const data = await putUserService(req.body);
+  const id = parseInt(req.params.id);
 
-  return res.status(201).json(data);
+  const data = await putUserService(id);
+
+  return res.status(200).json(data);
 };
 
 export {

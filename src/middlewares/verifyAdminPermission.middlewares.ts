@@ -3,7 +3,11 @@ import format from "pg-format";
 import { client } from "../database";
 import { AppError } from "../errors/appError";
 
-const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
+const verifyAdminPermission = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const id = req.user.id;
 
   const queryString = format(
@@ -15,12 +19,15 @@ const verifyAdmin = async (req: Request, res: Response, next: NextFunction) => {
   );
 
   const queryResult = await client.query(queryString);
+  const paramId = parseInt(req.params.id);
 
   if (!queryResult.rows[0].admin) {
-    throw new AppError("Inssuficient Permissison", 403);
+    if (id !== paramId) {
+      throw new AppError("Inssuficient Permissison", 403);
+    }
   }
 
   return next();
 };
 
-export { verifyAdmin };
+export { verifyAdminPermission };

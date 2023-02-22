@@ -31,9 +31,10 @@ const postLoginService = async (body: iUserLogin) => {
     queryResult.rows[0].password
   );
 
-  // if (!verifyPassword) {
-  //   throw new AppError("Wrong email/password", 401);
-  // }
+  if (!verifyPassword) {
+    console.log(verifyPassword);
+    throw new AppError("Wrong email/password", 401);
+  }
 
   const token: string = jwt.sign(
     {
@@ -47,7 +48,7 @@ const postLoginService = async (body: iUserLogin) => {
   );
 
   return {
-    token: `Bearer ${token}`,
+    token: token,
   };
 };
 

@@ -8,6 +8,7 @@ const handleError = (
   res: Response,
   _: NextFunction
 ): Response => {
+  console.log(error);
   if (error instanceof AppError) {
     return res.status(error.statusCode).json({
       message: error.message,
@@ -19,8 +20,6 @@ const handleError = (
       message: error.flatten().fieldErrors,
     });
   }
-
-  console.log(error);
 
   return res.status(500).json({
     message: "Internal server error",
