@@ -1,9 +1,13 @@
 import format from "pg-format";
 import { client } from "../../database";
-import { userWithoutPassword } from "../../schemas/user.schemas";
+import {
+  iUserQueryResult,
+  iUserResult,
+} from "../../interfaces/users.interface";
+import { userSchemaResult } from "../../schemas/user.schemas";
 
 const getUserService = async (id: number) => {
-  const queryString = format(
+  const queryString: string = format(
     `
     select * from users u
     where u.id = %s
@@ -11,8 +15,8 @@ const getUserService = async (id: number) => {
     id
   );
 
-  const queryResult = await client.query(queryString);
-  const userReturn = userWithoutPassword.parse(queryResult.rows[0]);
+  const queryResult: iUserQueryResult = await client.query(queryString);
+  const userReturn: iUserResult = userSchemaResult.parse(queryResult.rows[0]);
 
   return userReturn;
 };

@@ -1,13 +1,20 @@
 import { client } from "../../database";
+import {
+  iUsersQueryResult,
+  iUsersResult,
+} from "../../interfaces/users.interface";
+import { usersSchemaResult } from "../../schemas/user.schemas";
 
 const getAllUsersService = async () => {
-  const queryString = `
-    select u.id, u.name, u.email, u.admin, u.active from users u;
+  const queryString: string = `
+    select * from users u;
   `;
 
-  const queryResult = await client.query(queryString);
+  const queryResult: iUsersQueryResult = await client.query(queryString);
 
-  return queryResult.rows;
+  const users: iUsersResult = usersSchemaResult.parse(queryResult.rows);
+
+  return users;
 };
 
 export { getAllUsersService };

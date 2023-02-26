@@ -1,12 +1,17 @@
 import format from "pg-format";
 import { client } from "../../database";
-import { iUserOptional } from "../../interfaces/users.interface";
+import {
+  iUserPatch,
+  iUserQueryResult,
+  iUserResult,
+} from "../../interfaces/users.interface";
+import { userSchemaResult } from "../../schemas/user.schemas";
 
-const patchUserService = async (user: iUserOptional, id: number) => {
+const patchUserService = async (user: iUserPatch, id: number) => {
   const columns = Object.keys(user);
   const values = Object.values(user);
 
-  const queryString = format(
+  const queryString: string = format(
     `
       update users
       set (%I) = row(%L)
@@ -18,9 +23,11 @@ const patchUserService = async (user: iUserOptional, id: number) => {
     id
   );
 
-  const queryResult = await client.query(queryString);
+  const queryResult: iUserQueryResult = await client.query(queryString);
 
-  return queryResult.rows[0];
+  const newUser: iUserResult = userSchemaResult.parse(queryResult.rows[0]);
+
+  return newUser;
 };
 
 export { patchUserService };

@@ -1,12 +1,27 @@
+import { QueryResult } from "pg";
 import { z } from "zod";
 import {
-  resultUserSchema,
   userSchema,
-  userSchemaOptional,
+  userSchemaPatch,
+  userSchemaCreate,
+  userSchemaResult,
+  usersSchemaResult,
 } from "../schemas/user.schemas";
 
 type iUser = z.infer<typeof userSchema>;
-type iResultUser = z.infer<typeof resultUserSchema>;
-type iUserOptional = z.infer<typeof userSchemaOptional>;
+type iUserCreate = z.infer<typeof userSchemaCreate>;
+type iUserPatch = z.infer<typeof userSchemaPatch>;
+type iUserResult = z.infer<typeof userSchemaResult>;
+type iUserQueryResult = QueryResult<iUserResult>;
+type iUsersResult = z.infer<typeof usersSchemaResult>;
+type iUsersQueryResult = QueryResult<iUsersResult>;
 
-export { iUser, iResultUser, iUserOptional };
+export {
+  iUser,
+  iUserPatch,
+  iUserCreate,
+  iUserResult,
+  iUsersResult,
+  iUserQueryResult,
+  iUsersQueryResult,
+};

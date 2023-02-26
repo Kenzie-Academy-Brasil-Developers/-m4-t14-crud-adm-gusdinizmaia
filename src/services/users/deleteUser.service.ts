@@ -4,7 +4,8 @@ import { client } from "../../database";
 const deleteUserService = async (id: number) => {
   const queryString = format(
     `
-      delete from users 
+      update users
+      set active = false 
       where id = %s
   `,
     id

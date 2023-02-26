@@ -14,11 +14,16 @@ import { verifyEmail } from "../middlewares/verifyEmail.middlewares";
 import { verifyToken } from "../middlewares/verifyToken.middlewares";
 import { verifyUserActive } from "../middlewares/verifyUserActive.middlewares";
 import { verifyUserExist } from "../middlewares/verifyUserExist.middlewares";
-import { userSchema, userSchemaOptional } from "../schemas/user.schemas";
+import { userSchemaCreate, userSchemaPatch } from "../schemas/user.schemas";
 
 const userRouter = Router();
 
-userRouter.post("", verifyData(userSchema), verifyEmail, postUserController);
+userRouter.post(
+  "",
+  verifyData(userSchemaCreate),
+  verifyEmail,
+  postUserController
+);
 userRouter.get("", verifyToken, verifyAdmin, getAllUsersController);
 userRouter.get("/profile", verifyToken, getUserController);
 userRouter.patch(
@@ -26,7 +31,7 @@ userRouter.patch(
   verifyUserExist,
   verifyToken,
   verifyAdminPermission,
-  verifyData(userSchemaOptional),
+  verifyData(userSchemaPatch),
   verifyEmail,
   patchUserController
 );

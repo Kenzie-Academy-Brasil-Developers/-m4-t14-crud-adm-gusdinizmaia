@@ -17,7 +17,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     String(process.env.JWT_SECRET_KEY!),
     (err, decoded: any) => {
       if (err) {
-        throw new AppError("Missing Bearer Token", 401);
+        throw new AppError(err.message, 401);
       }
 
       req.user = {

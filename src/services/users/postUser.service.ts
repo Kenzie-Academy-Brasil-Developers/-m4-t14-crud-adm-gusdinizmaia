@@ -1,12 +1,17 @@
 import format from "pg-format";
 import { client } from "../../database";
-import { userWithoutPassword } from "../../schemas/user.schemas";
+import {
+  iUserResult,
+  iUserQueryResult,
+  iUserPatch,
+} from "../../interfaces/users.interface";
+import { userSchemaResult } from "../../schemas/user.schemas";
 
-const postUserService = async (body: any) => {
-  const columns = Object.keys(body);
-  const values = Object.values(body);
+const postUserService = async (user: iUserPatch) => {
+  const columns = Object.keys(user);
+  const values = Object.values(user);
 
-  const queryString = format(
+  const queryString: string = format(
     `
       insert into users as u (%I) values (%L)
       returning *;
@@ -15,8 +20,9 @@ const postUserService = async (body: any) => {
     values
   );
 
-  const queryResult = await client.query(queryString);
-  const newUser = userWithoutPassword.parse(queryResult.rows[0]);
+  const queryResult: iUserQueryResult = await client.query(queryString);
+
+  const newUser: iUserResult = userSchemaResult.parse(queryResult.rows[0]);
 
   return newUser;
 };

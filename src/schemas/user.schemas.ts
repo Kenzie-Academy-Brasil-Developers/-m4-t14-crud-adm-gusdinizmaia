@@ -2,28 +2,25 @@ import { hashSync } from "bcryptjs";
 import { z } from "zod";
 
 const userSchema = z.object({
+  id: z.number(),
   name: z.string().max(20),
   email: z.string().email({ message: "Invalid email" }).max(100),
+  admin: z.boolean().optional(),
+  active: z.boolean(),
   password: z
     .string()
     .max(250)
     .transform((pass) => hashSync(pass, 10)),
-  admin: z.boolean().optional(),
-  active: z.boolean().optional(),
 });
 
-const UserSchemaResult = userSchema.extend({
-  id: z.number(),
+const userSchemaCreate = userSchema.omit({
+  id: true,
+  active: true,
 });
 
-const userWithoutPassword = UserSchemaResult.omit({ password: true });
-
-const userSchemaOptional = userSchema
-  .partial({
-    name: true,
-    email: true,
-    password: true,
-  })
+const userSchemaPatch = userSchema
+  .partial()
+  .omit({ admin: true })
   .superRefine((user, ctx) => {
     const keys = Object.keys(user);
 
@@ -36,9 +33,14 @@ const userSchemaOptional = userSchema
     }
   });
 
+const userSchemaResult = userSchema.omit({ password: true });
+
+const usersSchemaResult = z.array(userSchemaResult);
+
 export {
   userSchema,
-  UserSchemaResult,
-  userWithoutPassword,
-  userSchemaOptional,
+  userSchemaCreate,
+  userSchemaPatch,
+  userSchemaResult,
+  usersSchemaResult,
 };

@@ -6,11 +6,11 @@ import "dotenv/config";
 import { client } from "../../database";
 import { AppError } from "../../errors/appError";
 import { iUserLogin } from "../../interfaces/login.interface";
-import { iResultUser } from "../../interfaces/users.interface";
+import { iUser } from "../../interfaces/users.interface";
 
-const postLoginService = async (body: iUserLogin) => {
-  const email = body.email;
-  const password = body.password;
+const postLoginService = async (user: iUserLogin) => {
+  const email = user.email;
+  const password = user.password;
 
   const queryString = format(
     `
@@ -20,7 +20,7 @@ const postLoginService = async (body: iUserLogin) => {
     email
   );
 
-  const queryResult: QueryResult<iResultUser> = await client.query(queryString);
+  const queryResult: QueryResult<iUser> = await client.query(queryString);
 
   if (queryResult.rowCount === 0 || !queryResult.rows[0].active) {
     throw new AppError("Wrong email/password", 401);
@@ -32,7 +32,6 @@ const postLoginService = async (body: iUserLogin) => {
   );
 
   if (!verifyPassword) {
-    console.log(verifyPassword);
     throw new AppError("Wrong email/password", 401);
   }
 
